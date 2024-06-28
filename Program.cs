@@ -53,6 +53,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<MarketplaceContext>();
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+        SeedDatabase.Seed(context);
+    }
 }
 else
 {
