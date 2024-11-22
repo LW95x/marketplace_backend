@@ -1,9 +1,12 @@
+using Asp.Versioning;
 using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +40,16 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     .AddEntityFrameworkStores<MarketplaceContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllAccess", policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
     {
@@ -44,7 +57,27 @@ builder.Services.AddControllers()
     });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(setup =>
+{
+    setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Marketplace API",
+        Version = "v1",
+        Description = "This Marketplace API is designed to mimic the services of a user-to-user marketplace such as eBay, where users can take on the role of buyer and seller simultaneously.<br><br><b>GitHub link:<b> <a href=\"https://github.com/LW95x/Marketplace-API\">https://github.com/LW95x/Marketplace-API</a>"
+    });
+
+    var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+    setup.IncludeXmlComments(xmlFullPath);
+});
+
+builder.Services.AddApiVersioning(setupAction =>
+{
+    setupAction.ReportApiVersions = true;
+    setupAction.AssumeDefaultVersionWhenUnspecified = true;
+    setupAction.DefaultApiVersion = new ApiVersion(1, 0);
+}).AddMvc();
 
 var app = builder.Build();
 
@@ -68,6 +101,8 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAllAccess");
 
 app.UseAuthentication();
 app.UseAuthorization();

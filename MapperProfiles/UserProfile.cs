@@ -10,6 +10,7 @@ namespace Marketplace.MapperProfiles
         {
             CreateMap<User, UserForResponseDto>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+            CreateMap<UserForCreationDto, User>();
             CreateMap<User, UserForUpdateDto>().ReverseMap();
         }
     }

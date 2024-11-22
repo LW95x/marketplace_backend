@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using Azure;
 using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
@@ -17,44 +18,61 @@ namespace Marketplace.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService, IMapper mapper)
+        public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
+        /// <summary>
+        /// Get all users.
+        /// </summary>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UserForResponseDto>>> GetUsers()
         {
             var users = await _userService.FetchUsersAsync();
 
             return Ok(_mapper.Map<IEnumerable<UserForResponseDto>>(users));
         }
-
+        /// <summary>
+        /// Get a specific user.
+        /// </summary>
         [HttpGet("{userId}", Name = "GetUserById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetUserById(string userId)
         {
-            if (string.IsNullOrEmpty(userId)) 
-            {
-                return BadRequest("User ID cannot be null or empty.");
-            }
-
             var user = await _userService.FetchUserByIdAsync(userId);
 
             if (user == null)
             {
+                _logger.LogError($"User with ID {userId} wasn't found.");
                 return NotFound("This user ID does not exist.");
             }
 
             return Ok(_mapper.Map<UserForResponseDto>(user));
         }
-
+        /// <summary>
+        /// Create a new user.
+        /// </summary>
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto model)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateUser([FromBody] UserForCreationDto userDto)
         {
-            var user = new User { UserName = model.UserName, Email = model.Email };
-            var result = await _userService.AddUser(user, model.Password);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Validation has failed for POST User request.");
+                return BadRequest(ModelState);
+            }
+
+            // var user = new User { UserName = userDto.UserName, Email = userDto.Email };
+            var user = _mapper.Map<User>(userDto);
+            var result = await _userService.AddUser(user, userDto.Password);
 
             if (result.Succeeded)
             {
@@ -63,22 +81,24 @@ namespace Marketplace.Controllers
             }
             else
             {
-                return BadRequest(result.Errors);
+                _logger.LogCritical($"Failed to create a new user.");
+                return StatusCode(500, result.Errors);
             }
         }
-
+        /// <summary>
+        /// Delete an existing user.
+        /// </summary>
         [HttpDelete("{userId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteUser(string userId)
         {
-            if (string.IsNullOrEmpty(userId))
-            {
-                return BadRequest("User ID cannot be null or empty.");
-            }
-
             var user = await _userService.FetchUserByIdAsync(userId);
 
             if (user == null)
             {
+                _logger.LogError($"User with ID {userId} wasn't found.");
                 return NotFound("This user ID does not exist.");
             }
 
@@ -90,22 +110,24 @@ namespace Marketplace.Controllers
             }
             else
             {
-                return BadRequest(result.Errors);
+                _logger.LogCritical($"Failed to delete existing user.");
+                return StatusCode(500, result.Errors);
             }
         }
-
+        /// <summary>
+        /// Change the password of an existing user.
+        /// </summary>
         [HttpPost("{userId}/change-password")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> ChangeUserPassword(string userId, string currentPassword, string newPassword)
         {
-            if (string.IsNullOrEmpty(userId))
-            {
-                return BadRequest("User ID cannot be null or empty.");
-            }
-
             var user = await _userService.FetchUserByIdAsync(userId);
 
             if (user == null)
             {
+                _logger.LogError($"User with ID {userId} wasn't found.");
                 return NotFound("This user ID does not exist.");
             }
 
@@ -116,18 +138,26 @@ namespace Marketplace.Controllers
                 return Ok();
             }
             else
-            { 
-                return BadRequest(result.Errors);
+            {
+                _logger.LogCritical($"Failed to update existing user's password.");
+                return StatusCode(500, result.Errors);
             }
         }
-
+        /// <summary>
+        /// Update a user.
+        /// </summary>
         [HttpPatch("{userId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> UpdateUser(string userId, [FromBody] JsonPatchDocument<UserForUpdateDto> patchDocument)
         {
             var user = await _userService.FetchUserByIdAsync(userId);
 
             if (user == null)
             {
+                _logger.LogError($"User with ID {userId} wasn't found.");
                 return NotFound("This user ID does not exist.");
             }
 
@@ -139,6 +169,7 @@ namespace Marketplace.Controllers
 
             if (!ModelState.IsValid)
             {
+                _logger.LogError($"Validation has failed for PATCH User request.");
                 return BadRequest(ModelState);
             }
 
@@ -148,7 +179,8 @@ namespace Marketplace.Controllers
 
             if (updatedUser == null)
             {
-                return BadRequest("Failed to update user.");
+                _logger.LogCritical($"Failed to update an existing user.");
+                return StatusCode(500, "Failed to update the user due to an internal server error.");
             }
 
             return NoContent();

@@ -18,7 +18,7 @@ namespace Marketplace.BusinessLayer
             return await _userProductRepository.UserExistsAsync(userId);
         }
 
-        public async Task<IEnumerable<Product>> FetchUserProductsAync(string userId)
+        public async Task<IEnumerable<Product>> FetchUserProductsAsync(string userId)
         {
             return await _userProductRepository.GetUserProductsAsync(userId);
         }

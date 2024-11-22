@@ -17,32 +17,44 @@ namespace Marketplace.Controllers
         private readonly IMapper _mapper;
         private readonly IUserProductService _userProductService;
         private readonly IUserService _userService;
+        private readonly ILogger<UserProductsController> _logger;
 
-        public UserProductsController(IMapper mapper, IUserProductService userProductService, IUserService userService)
+        public UserProductsController(IMapper mapper, IUserProductService userProductService, IUserService userService, ILogger<UserProductsController> logger)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _userProductService = userProductService ?? throw new ArgumentNullException(nameof(userProductService));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-
-        [HttpGet] 
+        /// <summary>
+        /// Get all products listed by a specific user.
+        /// </summary>
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<ProductForResponseDto>>> GetUserProducts(string userId)
         {
             if (!await _userProductService.CheckUserExists(userId))
             {
+                _logger.LogError($"User with ID {userId} wasn't found.");
                 return NotFound("This User ID does not exist.");
             }
 
-            var userProducts = await _userProductService.FetchUserProductsAync(userId);
+            var userProducts = await _userProductService.FetchUserProductsAsync(userId);
 
             return Ok(_mapper.Map<IEnumerable<ProductForResponseDto>>(userProducts));
         }
-
+        /// <summary>
+        /// Get a specific product listed by a specific user.
+        /// </summary>
         [HttpGet("{productId}", Name = "GetSingleUserProduct")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductForResponseDto>> GetSingleUserProduct(string userId, Guid productId)
         {
             if (!await _userProductService.CheckUserExists(userId))
             {
+                _logger.LogError($"User with ID {userId} wasn't found.");
                 return NotFound("This User ID does not exist.");
             }
 
@@ -50,17 +62,25 @@ namespace Marketplace.Controllers
 
             if (userProduct == null)
             {
+                _logger.LogError($"Product with ID {productId} wasn't found.");
                 return NotFound("This Product ID does not exist.");
             }
 
             return Ok(_mapper.Map<ProductForResponseDto>(userProduct));
         }
-
+        /// <summary>
+        /// Add a new product.
+        /// </summary>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> CreateProduct(ProductForCreationDto productDto, string userId)
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError($"Validation has failed for POST Product request.");
                 return BadRequest(ModelState);
             }
 
@@ -68,6 +88,7 @@ namespace Marketplace.Controllers
 
             if (user == null)
             {
+                _logger.LogError($"User with ID {userId} wasn't found.");
                 return NotFound("This User ID does not exist.");
             }
 
@@ -79,7 +100,8 @@ namespace Marketplace.Controllers
 
             if (createdProduct == null)
             {
-                return BadRequest("Failed to create product.");
+                _logger.LogCritical($"Failed to create the product.");
+                return StatusCode(500, "Failed to create product due to an internal server error.");
             }
 
             var productResponseDto = _mapper.Map<ProductForResponseDto>(createdProduct);
@@ -87,14 +109,26 @@ namespace Marketplace.Controllers
             return CreatedAtAction("GetSingleUserProduct", new { userId = createdProduct.SellerId, productId = createdProduct.Id }, productResponseDto);
 
         }
-
+        /// <summary>
+        /// Delete an existing product.
+        /// </summary>
         [HttpDelete("{productId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteProduct(string userId, Guid productId)
         {
+            if (!await _userProductService.CheckUserExists(userId))
+            {
+                _logger.LogError($"User with ID {userId} wasn't found.");
+                return NotFound("This User ID does not exist.");
+            }
+
             var product = await _userProductService.FetchSingleUserProduct(userId, productId);
 
             if (product == null)
             {
+                _logger.LogError($"Product with ID {productId} wasn't found.");
                 return NotFound("This Product ID does not exist.");
             }
 
@@ -106,15 +140,23 @@ namespace Marketplace.Controllers
             }
             else
             {
-                return BadRequest(result.Error);
+                _logger.LogCritical($"Failed to delete the product.");
+                return StatusCode(500, result.Error);
             }
         }
-
+        /// <summary>
+        /// Update an existing product.
+        /// </summary>
         [HttpPatch("{productId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> UpdateProduct(string userId, Guid productId, [FromBody] JsonPatchDocument<ProductForUpdateDto> patchDocument)
         {
             if (!await _userProductService.CheckUserExists(userId))
             {
+                _logger.LogError($"User with ID {userId} wasn't found.");
                 return NotFound("This User ID does not exist.");
             }
 
@@ -122,6 +164,7 @@ namespace Marketplace.Controllers
 
             if (product == null)
             {
+                _logger.LogError($"Product with ID {productId} wasn't found.");
                 return NotFound("This Product ID does not exist.");
             }
 
@@ -131,6 +174,7 @@ namespace Marketplace.Controllers
 
             if (!ModelState.IsValid)
             {
+                _logger.LogError($"Validation has failed for PATCH Product request.");
                 return BadRequest(ModelState);
             }
 
@@ -140,7 +184,8 @@ namespace Marketplace.Controllers
 
             if (updatedProduct == null)
             {
-                return BadRequest("Failed to update product.");
+                _logger.LogCritical($"Failed to update the order.");
+                return StatusCode(500, "Failed to update product due to an internal server error.");
             }
 
             return NoContent();

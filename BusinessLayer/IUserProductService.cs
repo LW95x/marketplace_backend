@@ -8,7 +8,7 @@ namespace Marketplace.BusinessLayer
     {
         Task<bool> CheckUserExists(string userId);
         Task<Product?> FetchSingleUserProduct(string userId, Guid productId);
-        Task<IEnumerable<Product>> FetchUserProductsAync(string userId);
+        Task<IEnumerable<Product>> FetchUserProductsAsync(string userId);
         Task<Product> CreateProductAsync(Product product);
         Task<Result> RemoveProduct(Product product);
         Task<Product> UpdateProductAsync(Product product);

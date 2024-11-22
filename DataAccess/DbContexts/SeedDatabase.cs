@@ -11,6 +11,7 @@ namespace Marketplace.DataAccess.DbContexts
         public static void Seed(MarketplaceContext context)
         {
             // Users
+
             User user1 = new User()
             {
                 Id = "7523CFD7-498F-444B-A8E4-BD29DB3FA9CC",
@@ -158,19 +159,19 @@ namespace Marketplace.DataAccess.DbContexts
             var cartItem2 = new ShoppingCartItem(productId2, 10)
             {
                 Price = product2.Price,
-                TotalPrice = RoundPrice(product2.Price * 5),
+                TotalPrice = RoundPrice(product2.Price * 10),
                 ShoppingCartId = user1.ShoppingCart.Id,
             };
-            var cartItem3 = new ShoppingCartItem(productId3, 10)
+            var cartItem3 = new ShoppingCartItem(productId3, 50)
             {
                 Price = product3.Price,
-                TotalPrice = RoundPrice(product3.Price * 5),
+                TotalPrice = RoundPrice(product3.Price * 50),
                 ShoppingCartId = user2.ShoppingCart.Id,
             };
-            var cartItem4 = new ShoppingCartItem(productId4, 10)
+            var cartItem4 = new ShoppingCartItem(productId4, 25)
             {
                 Price = product4.Price,
-                TotalPrice = RoundPrice(product4.Price * 5),
+                TotalPrice = RoundPrice(product4.Price * 25),
                 ShoppingCartId = user2.ShoppingCart.Id,
             };
             var cartItems = new List<ShoppingCartItem> { cartItem1, cartItem2, cartItem3, cartItem4 };

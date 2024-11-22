@@ -1,5 +1,6 @@
 ﻿using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Services;
+using Marketplace.Helpers;
 
 namespace Marketplace.BusinessLayer
 {
@@ -11,9 +12,9 @@ namespace Marketplace.BusinessLayer
         {
             _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
-        public async Task<IEnumerable<Product>> FetchProductsAsync()
+        public async Task<(IEnumerable<Product>, PaginationMetadata)> FetchProductsAsync(string? title, string? category, decimal? minPrice, decimal? maxPrice, int pageNumber, int pageSize)
         {
-            return await _productRepository.GetProductsAsync();
+            return await _productRepository.GetProductsAsync(title, category, minPrice, maxPrice, pageNumber, pageSize);
         }
 
         public async Task<Product?> FetchProductByIdAsync(Guid productId)
