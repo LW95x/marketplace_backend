@@ -14,5 +14,6 @@ namespace Marketplace.DataAccess.Services
         Task<bool> LoginUserAsync(string userName, string password);
         Task<Result> LogoutUserAsync();
         Task<IdentityResult> ChangeUserPasswordAsync(User user, string currentPassword, string newPassword);
+        Task<User?> GetUserByUsernameAsync(string username);    
     }
 }

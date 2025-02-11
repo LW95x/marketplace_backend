@@ -1,10 +1,11 @@
 ﻿using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
+using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 
-namespace Marketplace.DataAccess.Services
+namespace Marketplace.DataAccess.Repositories
 {
     public class ProductRepository : IProductRepository
     {
@@ -12,7 +13,7 @@ namespace Marketplace.DataAccess.Services
 
         public ProductRepository(MarketplaceContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context)); 
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<(IEnumerable<Product>, PaginationMetadata)> GetProductsAsync(string? title, string? category, decimal? minPrice, decimal? maxPrice, int pageNumber, int pageSize)
@@ -54,7 +55,7 @@ namespace Marketplace.DataAccess.Services
 
             return (collection, paginationMetadata);
         }
- 
+
         public async Task<Product?> GetProductByIdAsync(Guid productId)
         {
             return await _context.Products

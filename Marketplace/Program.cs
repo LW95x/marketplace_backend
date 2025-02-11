@@ -1,11 +1,15 @@
 using Asp.Versioning;
+using Azure.Identity;
 using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
+using Marketplace.DataAccess.Repositories;
 using Marketplace.DataAccess.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Extensions;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,8 +29,26 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IUserProductService, UserProductService>();
 
-builder.Services.AddDbContext<MarketplaceContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("MarketplaceDB")));
+var keyVaultUrl = builder.Configuration["KeyVault:VaultUri"];
+
+if (string.IsNullOrEmpty(keyVaultUrl))
+{
+    throw new InvalidOperationException("Key Vault URI is null.");
+}
+
+builder.Configuration.AddAzureKeyVault(new Uri(keyVaultUrl), new DefaultAzureCredential());
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<MarketplaceContext>(options =>
+        options.UseSqlServer(builder.Configuration["MarketplaceDB-Local"]));
+}
+else
+{
+    builder.Services.AddDbContext<MarketplaceContext>(options =>
+        options.UseSqlServer(builder.Configuration["MarketplaceDB-Production"]));
+}
+
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -66,10 +88,36 @@ builder.Services.AddSwaggerGen(setup =>
         Description = "This Marketplace API is designed to mimic the services of a user-to-user marketplace such as eBay, where users can take on the role of buyer and seller simultaneously.<br><br><b>GitHub link:<b> <a href=\"https://github.com/LW95x/Marketplace-API\">https://github.com/LW95x/Marketplace-API</a>"
     });
 
+
     var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
 
     setup.IncludeXmlComments(xmlFullPath);
+
+    setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter your bearer token.",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
+    });
+
+    setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new List<string>()
+        }
+    });
 });
 
 builder.Services.AddApiVersioning(setupAction =>
@@ -79,24 +127,65 @@ builder.Services.AddApiVersioning(setupAction =>
     setupAction.DefaultApiVersion = new ApiVersion(1, 0);
 }).AddMvc();
 
+
+var secretKey = builder.Configuration["Authentication:SecretForKey"]
+    ?? throw new InvalidOperationException("Authentication Key is missing.");
+
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Authentication:Issuer"],
+            ValidAudience = builder.Configuration["Authentication:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(secretKey))
+        };
+    });
+
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "U2U Marketplace API V1");
+
+    if (app.Environment.IsDevelopment())
+    {
+        c.RoutePrefix = "swagger";
+    }
+    else
+    {
+        c.RoutePrefix = string.Empty;
+    }
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-
     using (var scope = app.Services.CreateScope())
     {
         var context = scope.ServiceProvider.GetRequiredService<MarketplaceContext>();
+        var serviceProvider = scope.ServiceProvider;
+
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
-        SeedDatabase.Seed(context);
+        SeedDatabase.Seed(context, serviceProvider);
     }
 }
 else
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<MarketplaceContext>();
+        context.Database.Migrate();
+    }
+
     app.UseExceptionHandler("/errorhandler/error");
 }
 
@@ -105,6 +194,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAllAccess");
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

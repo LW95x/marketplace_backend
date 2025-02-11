@@ -2,7 +2,7 @@
 using Marketplace.Helpers;
 using Marketplace.Models;
 
-namespace Marketplace.DataAccess.Services
+namespace Marketplace.DataAccess.Repositories
 {
     public interface IProductRepository
     {

@@ -1,15 +1,16 @@
 ﻿using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
+using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Microsoft.EntityFrameworkCore;
 
-namespace Marketplace.DataAccess.Services
+namespace Marketplace.DataAccess.Repositories
 {
     public class ShoppingCartRepository : IShoppingCartRepository
     {
         private readonly MarketplaceContext _context;
 
-        public ShoppingCartRepository(MarketplaceContext context) 
+        public ShoppingCartRepository(MarketplaceContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -17,7 +18,7 @@ namespace Marketplace.DataAccess.Services
         {
             if (string.IsNullOrEmpty(userId))
             {
-                throw new ArgumentNullException(nameof(userId));    
+                throw new ArgumentNullException(nameof(userId));
             }
 
             return await _context.ShoppingCarts

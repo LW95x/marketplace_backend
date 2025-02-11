@@ -5,7 +5,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Marketplace.Controllers
 {
@@ -15,11 +19,14 @@ namespace Marketplace.Controllers
     {
         private readonly IUserService _userService;
         private readonly ILogger<UserAuthController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public UserAuthController(IUserService userService, ILogger<UserAuthController> logger)
+        public UserAuthController(IUserService userService, ILogger<UserAuthController> logger, IConfiguration configuration)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _configuration = configuration ??
+                throw new ArgumentNullException(nameof(configuration));
         }
 
         /// <summary>
@@ -42,7 +49,39 @@ namespace Marketplace.Controllers
 
             if (result == true)
             {
-                return Ok();
+                var user = await _userService.FetchUserByUsernameAsync(userForLoginDto.UserName);
+
+                if (user == null || user.Id == null || user.UserName == null || user.Email == null)
+                {
+                    throw new InvalidOperationException("User information is incomplete, preventing the generation of a JWT Authorisation Token.");
+                }
+
+                var secretKey = _configuration["Authentication:SecretForKey"];
+
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    throw new InvalidOperationException("Secret key is missing from configuration.");
+                }
+
+                var securityKey = new SymmetricSecurityKey(Convert.FromBase64String(secretKey));
+                var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                var tokenClaims = new List<Claim>();
+                tokenClaims.Add(new Claim("sub", user.Id.ToString()));
+                tokenClaims.Add(new Claim("user_name", user.UserName));
+                tokenClaims.Add(new Claim("email", user.Email));
+
+                var jwtSecurityToken = new JwtSecurityToken(
+                _configuration["Authentication:Issuer"],
+                _configuration["Authentication:Audience"],
+                tokenClaims,
+                DateTime.UtcNow,
+                DateTime.UtcNow.AddHours(3),
+                signingCredentials);
+
+                var returnedToken = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+                return Ok(returnedToken);
             }
             else
             {

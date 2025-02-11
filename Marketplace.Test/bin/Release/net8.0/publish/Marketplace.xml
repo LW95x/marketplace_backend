@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Marketplace</name>
+    </assembly>
+    <members>
+        <member name="M:Marketplace.Controllers.OrdersController.GetOrders(System.String)">
+            <summary>
+            Get all orders listed by a specific user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.OrdersController.GetOrderById(System.String,System.Guid)">
+            <summary>
+            Get a specific order listed by a specific user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.OrdersController.CreateOrder(Marketplace.Models.OrderForCreationDto,System.String)">
+            <summary>
+            Create a new order, by converting a user's shopping cart to an order.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.OrdersController.DeleteOrder(System.String,System.Guid)">
+            <summary>
+            Delete an existing order.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.OrdersController.UpdateOrder(System.String,System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Marketplace.Models.OrderForUpdateDto})">
+            <summary>
+            Update an existing order's OrderStatus or Delivery Address.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.ProductsController.GetProducts(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Int32,System.Int32)">
+            <summary>
+            Get all products.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.ProductsController.GetProductById(System.Guid)">
+            <summary>
+            Get a specific product.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.ShoppingCartController.GetShoppingCartByUserId(System.String)">
+            <summary>
+            Get a user's shopping cart in it's entirety. 
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.ShoppingCartController.GetSingleShoppingCartItem(System.String,System.Guid)">
+            <summary>
+            Get a single shopping cart item from a user's shopping cart.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.ShoppingCartController.AddProductToShoppingCart(Marketplace.Models.ShoppingCartItemForCreationDto,System.String)">
+            <summary>
+            This method will attempt to add a product to the user's shopping cart (201), or update the quantity of an already existing product in the user's shopping cart (204).
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.ShoppingCartController.DeleteShoppingCartItem(System.String,System.Guid)">
+            <summary>
+            Delete an item from a user's shopping cart.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.ShoppingCartController.UpdateShoppingCartItemQuantity(System.String,System.Guid,System.Int32,System.Boolean)">
+            <summary>
+            Update the quantity of an item in a user's shopping cart.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UserAuthController.LoginUser(Marketplace.Models.UserForLoginDto)">
+            <summary>
+            Attempts to login the user with provided username and password.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UserAuthController.LogoutUser">
+            <summary>
+            Attempts to logout an existing user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UserProductsController.GetUserProducts(System.String)">
+            <summary>
+            Get all products listed by a specific user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UserProductsController.GetSingleUserProduct(System.String,System.Guid)">
+            <summary>
+            Get a specific product listed by a specific user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UserProductsController.CreateProduct(Marketplace.Models.ProductForCreationDto,System.String)">
+            <summary>
+            Add a new product.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UserProductsController.DeleteProduct(System.String,System.Guid)">
+            <summary>
+            Delete an existing product.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UserProductsController.UpdateProduct(System.String,System.Guid,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Marketplace.Models.ProductForUpdateDto})">
+            <summary>
+            Update an existing product.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UsersController.GetUsers">
+            <summary>
+            Get all users.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UsersController.GetUserById(System.String)">
+            <summary>
+            Get a specific user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UsersController.CreateUser(Marketplace.Models.UserForCreationDto)">
+            <summary>
+            Create a new user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UsersController.DeleteUser(System.String)">
+            <summary>
+            Delete an existing user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UsersController.ChangeUserPassword(System.String,System.String,System.String)">
+            <summary>
+            Change the password of an existing user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UsersController.UpdateUser(System.String,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Marketplace.Models.UserForUpdateDto})">
+            <summary>
+            Update a user.
+            </summary>
+        </member>
+        <member name="T:Marketplace.Migrations.InitialCreation">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.InitialCreation.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.InitialCreation.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.InitialCreation.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Marketplace.Migrations.EntitiesCreated">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.EntitiesCreated.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.EntitiesCreated.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.EntitiesCreated.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Marketplace.Migrations.UserProducts">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.UserProducts.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.UserProducts.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.UserProducts.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Marketplace.Migrations.ShoppingCartItemChanges">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.ShoppingCartItemChanges.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.ShoppingCartItemChanges.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.ShoppingCartItemChanges.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Marketplace.Migrations.AmendOrderEntity">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendOrderEntity.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendOrderEntity.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendOrderEntity.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Marketplace.Migrations.AmendOrderItemEntity">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendOrderItemEntity.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendOrderItemEntity.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendOrderItemEntity.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Marketplace.Migrations.OrderEntityRemovedPriceParameter">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.OrderEntityRemovedPriceParameter.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.OrderEntityRemovedPriceParameter.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.OrderEntityRemovedPriceParameter.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Marketplace.Migrations.OrderEntityParameterRemoved">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.OrderEntityParameterRemoved.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.OrderEntityParameterRemoved.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.OrderEntityParameterRemoved.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Marketplace.Migrations.DatabaseSeeding">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.DatabaseSeeding.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.DatabaseSeeding.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.DatabaseSeeding.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

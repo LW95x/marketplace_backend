@@ -4,13 +4,13 @@ using Marketplace.Helpers;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 
-namespace Marketplace.DataAccess.Services
+namespace Marketplace.DataAccess.Repositories
 {
     public class UserProductRepository : IUserProductRepository
     {
         private readonly MarketplaceContext _context;
 
-        public UserProductRepository(MarketplaceContext context) 
+        public UserProductRepository(MarketplaceContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
@@ -22,7 +22,7 @@ namespace Marketplace.DataAccess.Services
                 throw new ArgumentNullException(nameof(userId));
             }
 
-            return await _context.Users.AnyAsync(u => u.Id ==  userId);
+            return await _context.Users.AnyAsync(u => u.Id == userId);
         }
 
         public async Task<IEnumerable<Product>> GetUserProductsAsync(string userId)
@@ -67,7 +67,18 @@ namespace Marketplace.DataAccess.Services
         {
             try
             {
+                var productDependencies = await _context.Products
+                    .Include(p => p.Images)
+                    .FirstOrDefaultAsync(p => p.Id == product.Id);
+
+                if (productDependencies == null)
+                {
+                    return Result.Fail("Product could not be found.");
+                }
+
+                _context.ProductImages.RemoveRange(productDependencies.Images);
                 _context.Products.Remove(product);
+
                 await _context.SaveChangesAsync();
                 return Result.Success();
             }

@@ -15,6 +15,7 @@ namespace Marketplace.BusinessLayer
         Task<User> UpdateUserAsync(User user);
         Task<bool> LoginUser(string userName, string password);
         Task<Result> LogoutUser();
+        Task<User?> FetchUserByUsernameAsync(string username);
 
     }
 }

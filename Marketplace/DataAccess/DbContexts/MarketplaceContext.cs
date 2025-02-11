@@ -1,5 +1,4 @@
 ﻿using Marketplace.DataAccess.Entities;
-using Marketplace.Migrations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -25,37 +24,37 @@ namespace Marketplace.DataAccess.DbContexts
                 .HasMany(u => u.Products)
                 .WithOne(p => p.Seller)
                 .HasForeignKey(p => p.SellerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Orders)
                 .WithOne(p => p.Buyer)
                 .HasForeignKey(p => p.BuyerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.ShoppingCart)
                 .WithOne(s => s.User)
                 .HasForeignKey<ShoppingCart>(u => u.BuyerId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.Images)
                 .WithOne(i => i.Product)
                 .HasForeignKey(i => i.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.OrderItems)
                 .WithOne(i => i.Order)
                 .HasForeignKey(i => i.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ShoppingCart>()
                 .HasMany(s => s.Items)
                 .WithOne(i => i.ShoppingCart)
                 .HasForeignKey(i => i.ShoppingCartId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

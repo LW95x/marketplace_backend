@@ -1,10 +1,11 @@
 ﻿using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
+using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
-namespace Marketplace.DataAccess.Services
+namespace Marketplace.DataAccess.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
@@ -53,7 +54,7 @@ namespace Marketplace.DataAccess.Services
 
             var userCart = await _context.ShoppingCarts.FirstOrDefaultAsync(u => u.BuyerId == order.BuyerId);
 
-            if (userCart != null) 
+            if (userCart != null)
             {
                 userCart.Items.Clear();
                 userCart.TotalPrice = 0;
@@ -67,7 +68,18 @@ namespace Marketplace.DataAccess.Services
         {
             try
             {
+                var orderDependencies = await _context.Orders
+                    .Include(o => o.OrderItems)
+                    .FirstOrDefaultAsync(o => o.Id == order.Id);
+
+                if (orderDependencies == null)
+                {
+                    return Result.Fail("Order could not be found.");
+                }
+
+                _context.OrderItems.RemoveRange(orderDependencies.OrderItems);
                 _context.Orders.Remove(order);
+
                 await _context.SaveChangesAsync();
                 return Result.Success();
             }

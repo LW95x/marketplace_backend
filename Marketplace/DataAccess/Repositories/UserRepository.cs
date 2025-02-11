@@ -1,11 +1,12 @@
 ﻿using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
+using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 
-namespace Marketplace.DataAccess.Services
+namespace Marketplace.DataAccess.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -13,7 +14,7 @@ namespace Marketplace.DataAccess.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
 
-        public UserRepository(MarketplaceContext context, UserManager<User> userManager, SignInManager<User> signInManager) 
+        public UserRepository(MarketplaceContext context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -36,6 +37,29 @@ namespace Marketplace.DataAccess.Services
 
         public async Task<IdentityResult> DeleteUser(User user)
         {
+            var userDependencies = await _context.Users
+                .Include(u => u.Products)
+                    .ThenInclude(p => p.Images)
+                .Include(u => u.Orders)
+                    .ThenInclude(o => o.OrderItems)
+                .Include(u => u.ShoppingCart)
+                    .ThenInclude(c => c.Items)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            if (userDependencies != null)
+            {
+                _context.ProductImages.RemoveRange(userDependencies.Products.SelectMany(p => p.Images));
+                _context.Products.RemoveRange(userDependencies.Products);
+
+                _context.OrderItems.RemoveRange(userDependencies.Orders.SelectMany(o => o.OrderItems));
+                _context.Orders.RemoveRange(userDependencies.Orders);
+
+                _context.ShoppingCartItems.RemoveRange(userDependencies.ShoppingCart.Items);
+                _context.ShoppingCarts.Remove(userDependencies.ShoppingCart);
+
+                await _context.SaveChangesAsync();
+            }
+
             return await _userManager.DeleteAsync(user);
         }
 
@@ -62,10 +86,10 @@ namespace Marketplace.DataAccess.Services
         {
             try
             {
-            await _signInManager.SignOutAsync();
-            return Result.Success();
+                await _signInManager.SignOutAsync();
+                return Result.Success();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Result.Fail(ex.Message);
             }
@@ -74,6 +98,11 @@ namespace Marketplace.DataAccess.Services
         public async Task<IdentityResult> ChangeUserPasswordAsync(User user, string currentPassword, string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+        }
+
+        public async Task<User?> GetUserByUsernameAsync(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
         }
     }
 }

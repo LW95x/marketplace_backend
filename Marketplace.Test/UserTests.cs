@@ -10,6 +10,7 @@ using Marketplace.Test.Fixtures;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SQLitePCL;
@@ -26,6 +27,7 @@ namespace Marketplace.Test
     public class UserTests
     {
         private readonly IMapper _mapper;
+        private readonly Mock<IConfiguration> _mockConfiguration;
         private readonly Mock<IUserService> _mockUserService;
         private readonly Mock<IUserRepository> _mockUserRepository;
         private readonly Mock<ILogger<UsersController>> _mockControllerLogger;
@@ -41,6 +43,13 @@ namespace Marketplace.Test
             var config = new MapperConfiguration(c => c.AddProfile<UserProfile>());
             _mapper = config.CreateMapper();
 
+            var mockConfiguration = new Mock<IConfiguration>();
+            mockConfiguration
+                .Setup(config => config["Authentication:SecretForKey"])
+                .Returns("VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGtleSBmb3IgdGVzdGluZw==");
+
+            _mockConfiguration = mockConfiguration;
+
             _mockUserService = new Mock<IUserService>();
             _mockUserRepository = new Mock<IUserRepository>();
             _mockControllerLogger = new Mock<ILogger<UsersController>>();
@@ -51,7 +60,7 @@ namespace Marketplace.Test
 
             _controller = new UsersController(_mockUserService.Object, _mapper, _mockControllerLogger.Object);
             _service = new UserService(_mockUserRepository.Object);
-            _authController = new UserAuthController(_mockUserService.Object, _mockAuthControllerLogger.Object);
+            _authController = new UserAuthController(_mockUserService.Object, _mockAuthControllerLogger.Object, _mockConfiguration.Object);
         }
 
         [Fact]
@@ -442,19 +451,23 @@ namespace Marketplace.Test
         public async Task LoginUser_WhenValidRequest_ReturnsOk()
         {
             // Arrange
-            var user = new UserForLoginDto
+            var userLogin = new UserForLoginDto
             {
-                UserName = "billybob",
-                Password = "billy"
+                UserName = "Billy",
+                Password = "Billybob-123"
             };
 
-            _mockUserService.Setup(service => service.LoginUser(user.UserName, user.Password)).ReturnsAsync(true);
+            var user = _testUsers[0];
+
+            _mockUserService.Setup(service => service.FetchUserByUsernameAsync(userLogin.UserName)).ReturnsAsync(user);
+
+            _mockUserService.Setup(service => service.LoginUser(userLogin.UserName, userLogin.Password)).ReturnsAsync(true);
 
             // Act
-            var result = await _authController.LoginUser(user);
+            var result = await _authController.LoginUser(userLogin);
 
             // Assert
-            var okResult = Assert.IsType<OkResult>(result);
+            var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal(200, okResult.StatusCode);
         }
 

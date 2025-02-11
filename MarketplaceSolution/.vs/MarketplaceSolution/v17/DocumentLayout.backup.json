@@ -1,7 +1,23 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\MarketplaceSolution\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B26964BB-E8BD-4668-9988-97D8303FA29D}|..\\Marketplace.Test\\Marketplace.Test.csproj|c:\\users\\liamw\\source\\repos\\marketplacesolution\\marketplace.test\\producttests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B26964BB-E8BD-4668-9988-97D8303FA29D}|..\\Marketplace.Test\\Marketplace.Test.csproj|c:\\users\\liamw\\source\\repos\\marketplacesolution\\marketplace.test\\fixtures\\testdatafactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5EAEF97-C56D-40E4-B87B-983F6EAD75BB}|..\\Marketplace\\Marketplace.csproj|c:\\users\\liamw\\source\\repos\\marketplacesolution\\marketplace\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5EAEF97-C56D-40E4-B87B-983F6EAD75BB}|..\\Marketplace\\Marketplace.csproj|c:\\users\\liamw\\source\\repos\\marketplacesolution\\marketplace\\appsettings.production.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B5EAEF97-C56D-40E4-B87B-983F6EAD75BB}|..\\Marketplace\\Marketplace.csproj|c:\\users\\liamw\\source\\repos\\marketplacesolution\\marketplace\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +25,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 725,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +34,71 @@
             {
               "$type": "Bookmark",
               "Name": "ST:1449176975:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductTests.cs",
+              "DocumentMoniker": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace.Test\\ProductTests.cs",
+              "RelativeDocumentMoniker": "..\\Marketplace.Test\\ProductTests.cs",
+              "ToolTip": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace.Test\\ProductTests.cs",
+              "RelativeToolTip": "..\\Marketplace.Test\\ProductTests.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-26T00:26:16.947Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TestDataFactory.cs",
+              "DocumentMoniker": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace.Test\\Fixtures\\TestDataFactory.cs",
+              "RelativeDocumentMoniker": "..\\Marketplace.Test\\Fixtures\\TestDataFactory.cs",
+              "ToolTip": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace.Test\\Fixtures\\TestDataFactory.cs",
+              "RelativeToolTip": "..\\Marketplace.Test\\Fixtures\\TestDataFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-26T00:26:08.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "..\\Marketplace\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace\\appsettings.Development.json",
+              "RelativeToolTip": "..\\Marketplace\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAApAQAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-25T22:42:35.637Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.Production.json",
+              "DocumentMoniker": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace\\appsettings.Production.json",
+              "RelativeDocumentMoniker": "..\\Marketplace\\appsettings.Production.json",
+              "ToolTip": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace\\appsettings.Production.json",
+              "RelativeToolTip": "..\\Marketplace\\appsettings.Production.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-01-25T22:10:55.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace\\Program.cs",
+              "RelativeDocumentMoniker": "..\\Marketplace\\Program.cs",
+              "ToolTip": "C:\\Users\\liamw\\source\\repos\\MarketplaceSolution\\Marketplace\\Program.cs",
+              "RelativeToolTip": "..\\Marketplace\\Program.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAAAFIAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-17T15:45:15.432Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -4,6 +4,7 @@ using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Marketplace.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Marketplace.Controllers
 {
     [Route("/users/{userId}/products")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class UserProductsController : ControllerBase
     {

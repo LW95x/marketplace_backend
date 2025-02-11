@@ -1,5 +1,5 @@
 ﻿using Marketplace.DataAccess.Entities;
-using Marketplace.DataAccess.Services;
+using Marketplace.DataAccess.Repositories;
 using Marketplace.Helpers;
 
 namespace Marketplace.BusinessLayer

@@ -1,8 +1,7 @@
-﻿
-using Marketplace.DataAccess.Entities;
+﻿using Marketplace.DataAccess.Entities;
 using Marketplace.Helpers;
 
-namespace Marketplace.DataAccess.Services
+namespace Marketplace.DataAccess.Repositories
 {
     public interface IUserProductRepository
     {

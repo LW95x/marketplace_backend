@@ -2,6 +2,7 @@
 using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
 using Marketplace.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,6 +11,7 @@ using Newtonsoft.Json;
 namespace Marketplace.Controllers
 {
     [Route("/users/{userId}/orders")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class OrdersController : ControllerBase
     {

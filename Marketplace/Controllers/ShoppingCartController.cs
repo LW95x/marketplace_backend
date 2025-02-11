@@ -2,12 +2,14 @@
 using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
 using Marketplace.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Marketplace.Controllers
 {
     [Route("/users/{userId}/cart")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class ShoppingCartController : ControllerBase
     {

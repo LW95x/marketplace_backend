@@ -18,7 +18,7 @@ namespace Marketplace.DataAccess.Entities
 
         [ForeignKey("ShoppingCartId")]
         public ShoppingCart ShoppingCart { get; set; } = null!;
-        public Guid ShoppingCartId { get; set; }
+        public Guid? ShoppingCartId { get; set; }
 
         [ForeignKey("ProductId")]
         public Product Product { get; set; } = null!;

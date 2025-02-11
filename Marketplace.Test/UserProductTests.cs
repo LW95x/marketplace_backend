@@ -4,7 +4,7 @@ using Marketplace.BusinessLayer;
 using Marketplace.Controllers;
 using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
-using Marketplace.DataAccess.Services;
+using Marketplace.DataAccess.Repositories;
 using Marketplace.Helpers;
 using Marketplace.MapperProfiles;
 using Marketplace.Models;

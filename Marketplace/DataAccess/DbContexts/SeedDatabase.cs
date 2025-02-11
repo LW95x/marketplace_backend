@@ -8,9 +8,11 @@ namespace Marketplace.DataAccess.DbContexts
 {
     public static class SeedDatabase
     {
-        public static void Seed(MarketplaceContext context)
+        public static void Seed(MarketplaceContext context, IServiceProvider serviceProvider)
         {
             // Users
+            using var scope = serviceProvider.CreateScope();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
             User user1 = new User()
             {
@@ -33,14 +35,25 @@ namespace Marketplace.DataAccess.DbContexts
                 Email = "janedoe@live.com"
             };
 
-            PasswordHasher<User> passwordHasher = new PasswordHasher<User>();
-            user1.PasswordHash = passwordHasher.HashPassword(user1, "billybob123");
-            user2.PasswordHash = passwordHasher.HashPassword(user2, "roberto123");
-            user3.PasswordHash = passwordHasher.HashPassword(user3, "jane123");
+            var addUser1 = userManager.CreateAsync(user1, "Billybob-123").Result;
+            if (!addUser1.Succeeded)
+            {
+                throw new Exception("Failed to create user #1 during seeding.");
+            }
 
-            var users = new List<User> { user1, user2, user3 };
-            context.Users.AddRange(users);
-            context.SaveChanges();
+            var addUser2 = userManager.CreateAsync(user2, "Roberto-123").Result;
+            if (!addUser2.Succeeded)
+            {
+                throw new Exception("Failed to create user #2 during seeding.");
+            }
+
+            var addUser3 = userManager.CreateAsync(user3, "Janespass-123").Result;
+            if (!addUser3.Succeeded)
+            {
+                throw new Exception("Failed to create user #3 during seeding.");
+            }
+
+            // Products
 
             Guid productId1 = new Guid("9B23A145-039B-4561-B59E-3DED02F712FD");
             Guid productId2 = new Guid("12C9D57C-1578-4CCD-AEB5-1E082D668E70");
@@ -53,7 +66,6 @@ namespace Marketplace.DataAccess.DbContexts
             Guid productId9 = new Guid("07573B01-22CF-4E64-A310-E60BDFAB8CDC");
             Guid productId10 = new Guid("1CA45E8E-030C-4E9B-A1C4-BEF6D1863593");
             
-            // Products
 
             Product product1 = new Product("Deckchair", "Furniture", 50M, "Very swingy", 10)
             {

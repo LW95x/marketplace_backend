@@ -53,5 +53,10 @@ namespace Marketplace.BusinessLayer
         {
             return await _userRepository.LogoutUserAsync();
         }
+
+        public async Task<User?> FetchUserByUsernameAsync(string username)
+        {
+            return await _userRepository.GetUserByUsernameAsync(username);
+        }
     }
 }

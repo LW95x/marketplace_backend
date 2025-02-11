@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Marketplace.BusinessLayer;
 using Marketplace.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace Marketplace.Controllers
 {
     [Route("/products")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class ProductsController : ControllerBase
     {

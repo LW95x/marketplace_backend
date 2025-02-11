@@ -5,6 +5,7 @@ using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Services;
 using Marketplace.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Marketplace.Controllers
 {
     [Route("/users")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -59,6 +61,7 @@ namespace Marketplace.Controllers
         /// Create a new user.
         /// </summary>
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
