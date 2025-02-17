@@ -1,7 +1,6 @@
 ﻿using Marketplace.DataAccess.Entities;
 using Marketplace.Helpers;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Marketplace.BusinessLayer
 {

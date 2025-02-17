@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using Castle.Core.Logging;
 using Marketplace.BusinessLayer;
 using Marketplace.Controllers;
 using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Repositories;
-using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Marketplace.MapperProfiles;
 using Marketplace.Models;
@@ -13,12 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Marketplace.Test
 {

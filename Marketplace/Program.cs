@@ -8,7 +8,6 @@ using Marketplace.DataAccess.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -128,7 +127,7 @@ builder.Services.AddApiVersioning(setupAction =>
 }).AddMvc();
 
 
-var secretKey = builder.Configuration["Authentication:SecretForKey"]
+var secretKey = builder.Configuration["SecretForKey"]
     ?? throw new InvalidOperationException("Authentication Key is missing.");
 
 builder.Services.AddAuthentication("Bearer")
@@ -189,7 +188,10 @@ else
     app.UseExceptionHandler("/errorhandler/error");
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseCors("AllowAllAccess");
 

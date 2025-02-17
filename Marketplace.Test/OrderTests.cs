@@ -4,7 +4,6 @@ using Marketplace.BusinessLayer;
 using Marketplace.Controllers;
 using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Repositories;
-using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Marketplace.MapperProfiles;
 using Marketplace.Models;
@@ -13,13 +12,8 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Marketplace.Test
 {

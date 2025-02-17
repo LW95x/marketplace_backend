@@ -4,7 +4,6 @@ using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace Marketplace.DataAccess.Repositories
 {

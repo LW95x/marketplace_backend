@@ -3,7 +3,6 @@ using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
 using Marketplace.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Marketplace.Controllers

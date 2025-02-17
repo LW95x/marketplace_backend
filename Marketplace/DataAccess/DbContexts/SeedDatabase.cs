@@ -1,8 +1,7 @@
-﻿using Marketplace.DataAccess.DbContexts;
-using Marketplace.DataAccess.Entities;
+﻿using Marketplace.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.Intrinsics.X86;
+
 
 namespace Marketplace.DataAccess.DbContexts
 {

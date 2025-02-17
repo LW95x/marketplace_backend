@@ -1,5 +1,4 @@
-﻿using Marketplace.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Marketplace.DataAccess.Entities

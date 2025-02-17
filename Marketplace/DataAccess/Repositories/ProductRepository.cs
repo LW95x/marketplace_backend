@@ -1,9 +1,7 @@
 ﻿using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
-using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace Marketplace.DataAccess.Repositories
 {

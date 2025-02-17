@@ -13,14 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
-using SQLitePCL;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Marketplace.Test
 {
@@ -45,7 +37,7 @@ namespace Marketplace.Test
 
             var mockConfiguration = new Mock<IConfiguration>();
             mockConfiguration
-                .Setup(config => config["Authentication:SecretForKey"])
+                .Setup(config => config["SecretForKey"])
                 .Returns("VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGtleSBmb3IgdGVzdGluZw==");
 
             _mockConfiguration = mockConfiguration;

@@ -2,7 +2,6 @@
 using Marketplace.DataAccess.Entities;
 using Marketplace.Helpers;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace Marketplace.DataAccess.Repositories
 {

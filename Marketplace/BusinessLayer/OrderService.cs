@@ -1,7 +1,6 @@
 ﻿using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Repositories;
 using Marketplace.Helpers;
-using SQLitePCL;
 
 namespace Marketplace.BusinessLayer
 {

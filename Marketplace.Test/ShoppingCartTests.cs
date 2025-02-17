@@ -3,7 +3,6 @@ using Marketplace.BusinessLayer;
 using Marketplace.Controllers;
 using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Repositories;
-using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Marketplace.MapperProfiles;
 using Marketplace.Models;
@@ -11,14 +10,6 @@ using Marketplace.Test.Fixtures;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Marketplace.Test
 {

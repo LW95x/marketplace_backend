@@ -1,13 +1,8 @@
-﻿using Asp.Versioning;
-using AutoMapper;
-using Azure;
+﻿using AutoMapper;
 using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
-using Marketplace.DataAccess.Services;
 using Marketplace.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 

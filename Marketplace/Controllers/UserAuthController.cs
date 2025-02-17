@@ -1,12 +1,6 @@
 ﻿using Marketplace.BusinessLayer;
-using Marketplace.Helpers;
 using Marketplace.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -56,7 +50,7 @@ namespace Marketplace.Controllers
                     throw new InvalidOperationException("User information is incomplete, preventing the generation of a JWT Authorisation Token.");
                 }
 
-                var secretKey = _configuration["Authentication:SecretForKey"];
+                var secretKey = _configuration["SecretForKey"];
 
                 if (string.IsNullOrEmpty(secretKey))
                 {

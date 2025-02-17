@@ -2,26 +2,16 @@
 using Azure;
 using Marketplace.BusinessLayer;
 using Marketplace.Controllers;
-using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Repositories;
 using Marketplace.Helpers;
 using Marketplace.MapperProfiles;
 using Marketplace.Models;
 using Marketplace.Test.Fixtures;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using Xunit;
 
 namespace Marketplace.Test
 {
