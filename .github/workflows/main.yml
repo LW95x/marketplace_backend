@@ -1,0 +1,45 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-api:
+    name: Build, Test & Publish Marketplace API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setting up ASP.NET Core Web API
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore Marketplace/Marketplace.csproj
+
+      - name: Build application
+        env:
+          ASPNETCORE_ENVIRONMENT: Production
+          MarketplaceDB-Production: ${{ secrets.MARKETPLACE_DB_CONNECTION_STRING }}
+        run: dotnet build --configuration Release --no-restore Marketplace/Marketplace.csproj
+
+      - name: Run test suite
+        run: dotnet test --configuration Release --no-build --logger trx --results-directory ./test-results Marketplace.Test/Marketplace.Test.csproj
+
+      - name: Publish application
+        env:
+          ASPNETCORE_ENVIRONMENT: Production
+          MarketplaceDB-Production: ${{ secrets.MARKETPLACE_DB_CONNECTION_STRING }}
+        run: dotnet publish --configuration Release --no-build --output ./publish Marketplace/Marketplace.csproj
+      
+    
