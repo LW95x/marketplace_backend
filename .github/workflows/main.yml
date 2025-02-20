@@ -36,10 +36,19 @@ jobs:
       - name: Run test suite
         run: dotnet test --configuration Release --no-build --logger trx --results-directory ./test-results Marketplace.Test/Marketplace.Test.csproj
 
-      - name: Publish application
-        env:
-          ASPNETCORE_ENVIRONMENT: Production
-          MarketplaceDB-Production: ${{ secrets.MARKETPLACE_DB_CONNECTION_STRING }}
-        run: dotnet publish --configuration Release --no-build --output ./publish Marketplace/Marketplace.csproj
+      - name: Login to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/marketplace-api:${{ github.sha }} -f Marketplace/Dockerfile .
+
+      - name: Push Docker Image to ACR
+        run: |
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/marketplace-api:${{ github.sha }}
       
     
