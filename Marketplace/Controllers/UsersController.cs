@@ -35,7 +35,7 @@ namespace Marketplace.Controllers
             return Ok(_mapper.Map<IEnumerable<UserForResponseDto>>(users));
         }
         /// <summary>
-        /// Get a specific user. TEST HERE!!!
+        /// Get a specific user.
         /// </summary>
         [HttpGet("{userId}", Name = "GetUserById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
