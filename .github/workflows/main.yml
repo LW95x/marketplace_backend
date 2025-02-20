@@ -1,0 +1,54 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-api:
+    name: Build, Test & Publish Marketplace API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setting up ASP.NET Core Web API
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore Marketplace/Marketplace.csproj
+
+      - name: Build application
+        env:
+          ASPNETCORE_ENVIRONMENT: Production
+          MarketplaceDB-Production: ${{ secrets.MARKETPLACE_DB_CONNECTION_STRING }}
+        run: dotnet build --configuration Release --no-restore Marketplace/Marketplace.csproj
+
+      - name: Run test suite
+        run: dotnet test --configuration Release --no-build --logger trx --results-directory ./test-results Marketplace.Test/Marketplace.Test.csproj
+
+      - name: Login to ACR
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/marketplace-api:${{ github.sha }} -f Marketplace/Dockerfile .
+
+      - name: Push Docker Image to ACR
+        run: |
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/marketplace-api:${{ github.sha }}
+      
+    
