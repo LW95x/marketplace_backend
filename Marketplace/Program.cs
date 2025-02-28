@@ -84,7 +84,7 @@ builder.Services.AddSwaggerGen(setup =>
     {
         Title = "Marketplace API",
         Version = "v1",
-        Description = "This Marketplace API is designed to mimic the services of a user-to-user marketplace such as eBay, where users can take on the role of buyer and seller simultaneously.<br><br><b>GitHub link:<b> <a href=\"https://github.com/LW95x/Marketplace-API\">https://github.com/LW95x/Marketplace-API</a>"
+        Description = "This Marketplace API is designed to mimic the services of a user-to-user marketplace such as eBay, where users can take on the role of buyer and seller simultaneously.<br><br><b>GitHub link:<b> <a href=\"https://github.com/LW95x/Marketplace-API\">https://github.com/LW95x/marketplace_backend</a>"
     });
 
 
