@@ -24,5 +24,14 @@ By implementing these architectural best practices, this API is designed to be *
 - **Cloud & DevOps:** Docker, Azure Container Registry, GitHub Actions (CI/CD)
 - **Testing:** xUnit, Moq, AutoFixture
   
+## Dummy Account
 
+If you wish to test the API endpoints yourself, a dummy user account has been registered for your convenience, should you wish to not go through the registration process:
 
+```
+{
+  "userName": "Billy",
+  "password": "Billybob-123"
+}
+```
+Upon a succesful login request, a JWT bearer token will be returned in the response body, which you can use to authorise access to all of the API endpoints by pressing the "Authorize" button in the top right of the Swagger webpage, and pasting the JWT bearer token into here, before again pressing "Authorize".
