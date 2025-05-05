@@ -186,9 +186,6 @@ else
     {
         var context = scope.ServiceProvider.GetRequiredService<MarketplaceContext>();
         context.Database.Migrate();
-
-        var serviceProvider = scope.ServiceProvider;
-        SeedDatabase.Seed(context, serviceProvider);
     }
 
     app.UseExceptionHandler("/errorhandler/error");
