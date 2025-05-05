@@ -129,5 +129,17 @@
             Update a user.
             </summary>
         </member>
+        <member name="T:Marketplace.Migrations.UpdatedOrderEntity">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.UpdatedOrderEntity.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.UpdatedOrderEntity.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.UpdatedOrderEntity.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

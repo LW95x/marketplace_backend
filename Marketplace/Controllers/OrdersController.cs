@@ -101,6 +101,7 @@ namespace Marketplace.Controllers
             
             var order = _mapper.Map<Order>(cart);
             order.Address = orderDto.Address;
+            order.StripePaymentId = orderDto.StripePaymentId;
 
             var createdOrder = await _orderService.CreateOrderAsync(order);
 

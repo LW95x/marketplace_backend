@@ -149,6 +149,8 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+Stripe.StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {

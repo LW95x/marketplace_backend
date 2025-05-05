@@ -24,6 +24,10 @@ namespace Marketplace.DataAccess.Entities
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
+
+        [Required]
+        public string StripePaymentId { get; set; } = string.Empty;
+
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
         [ForeignKey("BuyerId")]
