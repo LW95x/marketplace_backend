@@ -5,6 +5,7 @@ using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Repositories;
 using Marketplace.DataAccess.Services;
+using Marketplace.MapperProfiles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,8 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(OrderProfile).Assembly);
+
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
