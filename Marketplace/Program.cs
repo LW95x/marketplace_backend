@@ -7,6 +7,7 @@ using Marketplace.DataAccess.Repositories;
 using Marketplace.DataAccess.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -185,6 +186,9 @@ else
     {
         var context = scope.ServiceProvider.GetRequiredService<MarketplaceContext>();
         context.Database.Migrate();
+
+        var serviceProvider = scope.ServiceProvider;
+        SeedDatabase.Seed(context, serviceProvider);
     }
 
     app.UseExceptionHandler("/errorhandler/error");
