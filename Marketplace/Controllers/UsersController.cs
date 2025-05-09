@@ -3,6 +3,7 @@ using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
 using Marketplace.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +15,14 @@ namespace Marketplace.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService, IMapper mapper, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, UserManager<User> userManager, IMapper mapper, ILogger<UsersController> logger)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -166,6 +169,16 @@ namespace Marketplace.Controllers
             {
                 _logger.LogError($"Validation has failed for PATCH User request.");
                 return BadRequest(ModelState);
+            }
+
+            if (!string.IsNullOrWhiteSpace(userToPatch.Email) && userToPatch.Email != user.Email)
+            {
+                var setEmailResult = await _userManager.SetEmailAsync(user, userToPatch.Email);
+                if (!setEmailResult.Succeeded)
+                {
+                    _logger.LogError($"Failed to set new email via UserManager.");
+                    return StatusCode(500, "Failed to update the user's email due to an internal server error with UserManager.");
+                }
             }
 
             _mapper.Map(userToPatch, user);
