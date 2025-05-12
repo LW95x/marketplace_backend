@@ -39,6 +39,26 @@
             Get a specific product.
             </summary>
         </member>
+        <member name="M:Marketplace.Controllers.SavedItemsController.GetSavedItemsByUserId(System.String)">
+            <summary>
+            Get a user's saved items list in it's entirety. 
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.SavedItemsController.GetSingleSavedItem(System.String,System.Guid)">
+            <summary>
+            Get a singular saved item belonging to a user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.SavedItemsController.AddProductToSavedItems(System.Guid,System.String)">
+            <summary>
+            This method will attempt to add a product to the user's saved item's list (201).
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.SavedItemsController.DeleteSavedItem(System.String,System.Guid)">
+            <summary>
+            Delete a product from a user's saved item's list.
+            </summary>
+        </member>
         <member name="M:Marketplace.Controllers.ShoppingCartController.GetShoppingCartByUserId(System.String)">
             <summary>
             Get a user's shopping cart in it's entirety. 
@@ -129,16 +149,16 @@
             Update a user.
             </summary>
         </member>
-        <member name="T:Marketplace.Migrations.UpdatedOrderEntity">
+        <member name="T:Marketplace.Migrations.SavedItemsEntity">
             <inheritdoc />
         </member>
-        <member name="M:Marketplace.Migrations.UpdatedOrderEntity.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:Marketplace.Migrations.SavedItemsEntity.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:Marketplace.Migrations.UpdatedOrderEntity.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:Marketplace.Migrations.SavedItemsEntity.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:Marketplace.Migrations.UpdatedOrderEntity.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:Marketplace.Migrations.SavedItemsEntity.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
     </members>

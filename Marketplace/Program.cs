@@ -18,18 +18,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddAutoMapper(typeof(OrderProfile).Assembly);
 
-
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddScoped<IUserProductRepository, UserProductRepository>();
+builder.Services.AddScoped<ISavedItemsRepository, SavedItemsRepository>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IUserProductService, UserProductService>();
+builder.Services.AddScoped<ISavedItemsService, SavedItemsService>();
 
 var keyVaultUrl = builder.Configuration["KeyVault:VaultUri"];
 
@@ -188,6 +189,8 @@ else
     {
         var context = scope.ServiceProvider.GetRequiredService<MarketplaceContext>();
         context.Database.Migrate();
+        var serviceProvider = scope.ServiceProvider;
+        SeedDatabase.Seed(context, serviceProvider);
     }
 
     app.UseExceptionHandler("/errorhandler/error");

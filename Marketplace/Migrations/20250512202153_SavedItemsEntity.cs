@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Marketplace.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdatedOrderEntity : Migration
+    public partial class SavedItemsEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -271,6 +271,31 @@ namespace Marketplace.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SavedItem",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SavedItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SavedItem_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SavedItem_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ShoppingCartItems",
                 columns: table => new
                 {
@@ -363,6 +388,17 @@ namespace Marketplace.Migrations
                 column: "SellerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SavedItem_ProductId",
+                table: "SavedItem",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavedItem_UserId_ProductId",
+                table: "SavedItem",
+                columns: new[] { "UserId", "ProductId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShoppingCartItems_ProductId",
                 table: "ShoppingCartItems",
                 column: "ProductId");
@@ -403,6 +439,9 @@ namespace Marketplace.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductImages");
+
+            migrationBuilder.DropTable(
+                name: "SavedItem");
 
             migrationBuilder.DropTable(
                 name: "ShoppingCartItems");

@@ -148,6 +148,29 @@ namespace Marketplace.Migrations
                     b.ToTable("ProductImages");
                 });
 
+            modelBuilder.Entity("Marketplace.DataAccess.Entities.SavedItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId", "ProductId")
+                        .IsUnique();
+
+                    b.ToTable("SavedItem");
+                });
+
             modelBuilder.Entity("Marketplace.DataAccess.Entities.ShoppingCart", b =>
                 {
                     b.Property<Guid>("Id")
@@ -450,6 +473,25 @@ namespace Marketplace.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Marketplace.DataAccess.Entities.SavedItem", b =>
+                {
+                    b.HasOne("Marketplace.DataAccess.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Marketplace.DataAccess.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Marketplace.DataAccess.Entities.ShoppingCart", b =>

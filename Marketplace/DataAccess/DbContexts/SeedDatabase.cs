@@ -159,6 +159,36 @@ namespace Marketplace.DataAccess.DbContexts
             context.ProductImages.AddRange(productImages);
             context.SaveChanges();
 
+            // Saved Items List
+
+            var savedItems = new List<SavedItem>
+            {
+
+            new SavedItem
+            {
+                Id = Guid.NewGuid(),
+                ProductId = productId1,
+                UserId = user1.Id
+            },
+
+            new SavedItem
+            {
+                Id = Guid.NewGuid(),
+                ProductId = productId2,
+                UserId = user1.Id
+            },
+
+            new SavedItem
+            {
+                Id = Guid.NewGuid(),
+                ProductId = productId3,
+                UserId = user2.Id
+            }
+            };
+
+            context.SavedItem.AddRange(savedItems);
+            context.SaveChanges();
+
             // Shopping Cart Items
 
             var cartItem1 = new ShoppingCartItem(productId1, 5)
