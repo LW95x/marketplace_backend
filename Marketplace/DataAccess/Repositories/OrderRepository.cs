@@ -93,5 +93,15 @@ namespace Marketplace.DataAccess.Repositories
             await _context.SaveChangesAsync();
             return order;
         }
+
+        public async Task<IEnumerable<OrderItem>> GetSoldItems(string userId)
+        {
+            return await _context.OrderItems
+                        .Include(oi => oi.Product)
+                        .Include(oi => oi.Order)
+                        .ThenInclude(o => o.Buyer)
+                        .Where(oi => oi.Product.SellerId == userId)
+                        .ToListAsync();
+        }
     }
 }

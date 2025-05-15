@@ -37,5 +37,10 @@ namespace Marketplace.BusinessLayer
         {
             return await _orderRepository.UpdateOrderAsync(order);
         }
+
+        public async Task<IEnumerable<OrderItem>> FetchSoldItems(string userId)
+        {
+            return await _orderRepository.GetSoldItems(userId);
+        }
     }
 }

@@ -190,5 +190,23 @@ namespace Marketplace.Controllers
 
             return NoContent();
         }
+        /// <summary>
+        /// Get all sold items for a specific user.
+        /// </summary>
+        [HttpGet("sold-items")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<SoldItemForResponseDto>>> GetSoldItems(string userId)
+        {
+            if (!await _userProductService.CheckUserExists(userId))
+            {
+                _logger.LogError($"User with ID {userId} wasn't found.");
+                return NotFound("This User ID does not exist.");
+            }
+
+            var soldItems = await _orderService.FetchSoldItems(userId);
+
+            return Ok(_mapper.Map<IEnumerable<SoldItemForResponseDto>>(soldItems));
+        }
     }
 }

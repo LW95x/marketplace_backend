@@ -29,6 +29,11 @@
             Update an existing order's OrderStatus or Delivery Address.
             </summary>
         </member>
+        <member name="M:Marketplace.Controllers.OrdersController.GetSoldItems(System.String)">
+            <summary>
+            Get all sold items for a specific user.
+            </summary>
+        </member>
         <member name="M:Marketplace.Controllers.ProductsController.GetProducts(System.String,System.String,System.Nullable{System.Decimal},System.Nullable{System.Decimal},System.Int32,System.Int32)">
             <summary>
             Get all products.

@@ -19,6 +19,18 @@ namespace Marketplace.MapperProfiles
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.Items))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<Order, OrderForUpdateDto>().ReverseMap();
+            CreateMap<OrderItem, SoldItemForResponseDto>()
+                    .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Product.Id))
+                    .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Product.Title))
+                    .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Product.Category))
+                    .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Product.Description))
+                    .ForMember(dest => dest.Address, opt => opt.MapFrom(src => src.Order.Address))
+                    .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                    .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
+                    .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Quantity * src.Price))
+                    .ForMember(dest => dest.BuyerName, opt => opt.MapFrom(src => src.Order.Buyer.UserName))
+                    .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.Order.Date))
+                    .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Order.Status));
         }
     }
 }

@@ -10,5 +10,6 @@ namespace Marketplace.BusinessLayer
         Task<Order> CreateOrderAsync(Order order);
         Task<Result> RemoveOrder(Order order);
         Task<Order> UpdateOrderAsync(Order order);
+        Task<IEnumerable<OrderItem>> FetchSoldItems(string userId);
     }
 }

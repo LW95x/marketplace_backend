@@ -10,5 +10,6 @@ namespace Marketplace.DataAccess.Repositories
         Task<Order> AddOrderAsync(Order order);
         Task<Result> DeleteOrderAsync(Order order);
         Task<Order> UpdateOrderAsync(Order order);
+        Task<IEnumerable<OrderItem>> GetSoldItems(string userId);
     }
 }
