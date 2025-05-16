@@ -10,5 +10,7 @@ namespace Marketplace.DataAccess.Entities
         public virtual ICollection<Product> Products { get; set; } = new List<Product>();
         public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
         public virtual ShoppingCart ShoppingCart { get; set; } = new ShoppingCart();
+        public virtual ICollection<SavedItem> SavedItems { get; set; } = new List<SavedItem>();
+        public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     }
 }

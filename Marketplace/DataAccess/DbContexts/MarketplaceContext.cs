@@ -13,6 +13,7 @@ namespace Marketplace.DataAccess.DbContexts
         public DbSet<ShoppingCart> ShoppingCarts { get; set; } = null!;
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; } = null!;
         public DbSet<SavedItem> SavedItem { get; set; } = null!;
+        public DbSet<Notification> Notification { get; set; } = null!;
 
         public MarketplaceContext(DbContextOptions<MarketplaceContext> options) : base(options) { }
 
@@ -58,7 +59,7 @@ namespace Marketplace.DataAccess.DbContexts
 
             modelBuilder.Entity<SavedItem>()
                 .HasOne(s => s.User)
-                .WithMany()
+                .WithMany(u => u.SavedItems)
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -71,6 +72,12 @@ namespace Marketplace.DataAccess.DbContexts
             modelBuilder.Entity<SavedItem>()
                 .HasIndex(s => new { s.UserId, s.ProductId })
                 .IsUnique();
+
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.User)
+                .WithMany(u => u.Notifications)
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
