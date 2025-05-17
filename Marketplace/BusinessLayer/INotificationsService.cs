@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿
+
+using Marketplace.DataAccess.Entities;
+using Marketplace.Helpers;
 
 namespace Marketplace.BusinessLayer
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class INotificationsService : ControllerBase
+    public interface INotificationsService
     {
+        Task<IEnumerable<Notification>> FetchNotifications(string userId);
+        Task<Notification> FetchSingleNotification(string userId, Guid notificationId);
+        Task<Notification> AddNotification(Notification notification);
+        Task<Result> RemoveNotification(Notification notification);
     }
 }
