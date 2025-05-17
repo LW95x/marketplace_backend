@@ -4,6 +4,26 @@
         <name>Marketplace</name>
     </assembly>
     <members>
+        <member name="M:Marketplace.Controllers.NotificationsController.GetNotifications(System.String)">
+            <summary>
+            Get a user's notifications list in it's entirety. 
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.NotificationsController.GetSingleNotification(System.String,System.Guid)">
+            <summary>
+            Get a singular user notification.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.NotificationsController.AddNotification(System.String,Marketplace.Models.NotificationForCreationDto)">
+            <summary>
+            This method will attempt to add a notification for the user (201).
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.NotificationsController.DeleteNotification(System.String,System.Guid)">
+            <summary>
+            Delete an existing notification.
+            </summary>
+        </member>
         <member name="M:Marketplace.Controllers.OrdersController.GetOrders(System.String)">
             <summary>
             Get all orders listed by a specific user.

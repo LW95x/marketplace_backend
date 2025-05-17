@@ -24,6 +24,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddScoped<IUserProductRepository, UserProductRepository>();
 builder.Services.AddScoped<ISavedItemsRepository, SavedItemsRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -31,6 +32,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IUserProductService, UserProductService>();
 builder.Services.AddScoped<ISavedItemsService, SavedItemsService>();
+builder.Services.AddScoped<INotificationsService, NotificationsService>();
 
 var keyVaultUrl = builder.Configuration["KeyVault:VaultUri"];
 
