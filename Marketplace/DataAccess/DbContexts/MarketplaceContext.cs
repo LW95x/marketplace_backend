@@ -14,6 +14,7 @@ namespace Marketplace.DataAccess.DbContexts
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; } = null!;
         public DbSet<SavedItem> SavedItem { get; set; } = null!;
         public DbSet<Notification> Notification { get; set; } = null!;
+        public DbSet<Message> Messages { get; set; } = null!;
 
         public MarketplaceContext(DbContextOptions<MarketplaceContext> options) : base(options) { }
 
@@ -77,6 +78,18 @@ namespace Marketplace.DataAccess.DbContexts
                 .HasOne(n => n.User)
                 .WithMany(u => u.Notifications)
                 .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany(u => u.SentMessages)
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Receiver)
+                .WithMany(u => u.ReceivedMessages)
+                .HasForeignKey(m => m.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -5,8 +5,10 @@ using Marketplace.DataAccess.DbContexts;
 using Marketplace.DataAccess.Entities;
 using Marketplace.DataAccess.Repositories;
 using Marketplace.DataAccess.Services;
+using Marketplace.Helpers;
 using Marketplace.MapperProfiles;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +35,9 @@ builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IUserProductService, UserProductService>();
 builder.Services.AddScoped<ISavedItemsService, SavedItemsService>();
 builder.Services.AddScoped<INotificationsService, NotificationsService>();
+
+builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
+
 
 var keyVaultUrl = builder.Configuration["KeyVault:VaultUri"];
 
@@ -153,7 +158,11 @@ builder.Services.AddAuthentication("Bearer")
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
+
+app.MapHub<MessageHub>("/messagehub").RequireAuthorization();
 
 Stripe.StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 

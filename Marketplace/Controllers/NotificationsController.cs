@@ -104,6 +104,10 @@ namespace Marketplace.Controllers
         /// <summary>
         /// Delete an existing notification.
         /// </summary>
+        [HttpDelete("{notificationId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> DeleteNotification(string userId, Guid notificationId)
         {
             if (!await _userProductService.CheckUserExists(userId))
