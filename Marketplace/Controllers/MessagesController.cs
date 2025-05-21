@@ -52,7 +52,7 @@ namespace Marketplace.Controllers
             return Ok(_mapper.Map<IEnumerable<MessageForResponseDto>>(messages));
         }
         /// <summary>
-        /// Get a singular user notification.
+        /// Get all user messages sorted by conversation.
         /// </summary>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -73,7 +73,7 @@ namespace Marketplace.Controllers
                 return NotFound("Messages do not exist for this user.");
             }
 
-            return Ok(_mapper.Map<MessageForResponseDto>(messages));
+            return Ok(_mapper.Map<IEnumerable<MessageForResponseDto>>(messages));
         }
         /// <summary>
         /// Delete a message sent by the user.
