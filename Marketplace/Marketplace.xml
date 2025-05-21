@@ -14,6 +14,11 @@
             Get a singular user notification.
             </summary>
         </member>
+        <member name="M:Marketplace.Controllers.MessagesController.DeleteMessage(System.String,System.String)">
+            <summary>
+            Delete a message sent by the user.
+            </summary>
+        </member>
         <member name="M:Marketplace.Controllers.NotificationsController.GetNotifications(System.String)">
             <summary>
             Get a user's notifications list in it's entirety. 
@@ -183,18 +188,6 @@
             <summary>
             Update a user.
             </summary>
-        </member>
-        <member name="T:Marketplace.Migrations.SavedItemsEntity">
-            <inheritdoc />
-        </member>
-        <member name="M:Marketplace.Migrations.SavedItemsEntity.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Marketplace.Migrations.SavedItemsEntity.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Marketplace.Migrations.SavedItemsEntity.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
         </member>
     </members>
 </doc>

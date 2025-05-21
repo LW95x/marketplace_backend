@@ -75,6 +75,9 @@ namespace Marketplace.Controllers
 
             return Ok(_mapper.Map<MessageForResponseDto>(messages));
         }
+        /// <summary>
+        /// Delete a message sent by the user.
+        /// </summary>
         [HttpDelete("{messageId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
