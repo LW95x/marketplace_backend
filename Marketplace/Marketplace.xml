@@ -4,6 +4,16 @@
         <name>Marketplace</name>
     </assembly>
     <members>
+        <member name="M:Marketplace.Controllers.MessagesController.GetMessagesBetweenUsers(System.String,System.String)">
+            <summary>
+            Get messages shared between two specific users (i.e. a specific conversation). 
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.MessagesController.GetAllUserMessages(System.String)">
+            <summary>
+            Get a singular user notification.
+            </summary>
+        </member>
         <member name="M:Marketplace.Controllers.NotificationsController.GetNotifications(System.String)">
             <summary>
             Get a user's notifications list in it's entirety. 
