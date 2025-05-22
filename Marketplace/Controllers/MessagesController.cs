@@ -29,7 +29,7 @@ namespace Marketplace.Controllers
         /// <summary>
         /// Get messages shared between two specific users (i.e. a specific conversation). 
         /// </summary>
-        [HttpGet("receiverId")]
+        [HttpGet("{receiverId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<MessageForResponseDto>>> GetMessagesBetweenUsers(string userId, string receiverId)
