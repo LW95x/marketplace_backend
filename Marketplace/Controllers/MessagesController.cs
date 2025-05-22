@@ -32,7 +32,7 @@ namespace Marketplace.Controllers
         [HttpGet("{receiverId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<MessageForResponseDto>>> GetMessagesBetweenUsers(string userId, string receiverId)
+        public async Task<ActionResult<IEnumerable<MessageForResponseDto>>> GetMessagesBetweenUsers([FromRoute] string userId, [FromRoute] string receiverId)
         {
             if (!await _userProductService.CheckUserExists(userId) || !await _userProductService.CheckUserExists(receiverId))
             {
