@@ -219,6 +219,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapHub<MessageHub>("/messagehub").RequireAuthorization();
+app.MapHub<MessageHub>("/messagehub").RequireCors("AllowAllAccess").RequireAuthorization();
 
 app.Run();
