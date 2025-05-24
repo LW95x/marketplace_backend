@@ -211,6 +211,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+app.UseRouting();
+
 app.UseCors("AllowAllAccess");
 
 app.UseAuthentication();
