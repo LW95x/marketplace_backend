@@ -165,8 +165,6 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-app.MapHub<MessageHub>("/messagehub").RequireAuthorization();
-
 Stripe.StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 app.UseSwagger();
@@ -220,5 +218,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<MessageHub>("/messagehub").RequireAuthorization();
 
 app.Run();
