@@ -7,6 +7,8 @@ using Marketplace.DataAccess.Repositories;
 using Marketplace.DataAccess.Services;
 using Marketplace.Helpers;
 using Marketplace.MapperProfiles;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -221,6 +223,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapHub<MessageHub>("/messagehub").RequireCors("AllowAllAccess").RequireAuthorization();
+app.MapHub<MessageHub>("/messagehub")
+    .RequireCors("AllowAllAccess")
+       .RequireAuthorization(new AuthorizeAttribute
+       {
+           AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme
+       });
 
 app.Run();
