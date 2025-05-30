@@ -99,9 +99,9 @@ namespace Marketplace.DataAccess.Repositories
             return await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
         }
 
-        public async Task<User?> GetUserByUsernameAsync(string username)
+        public async Task<User?> GetUserByUsernameAsync(string userName)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
         }
     }
 }

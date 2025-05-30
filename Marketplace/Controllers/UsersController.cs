@@ -56,6 +56,24 @@ namespace Marketplace.Controllers
             return Ok(_mapper.Map<UserForResponseDto>(user));
         }
         /// <summary>
+        /// Get a specific user by user name.
+        /// </summary>
+        [HttpGet("username")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> GetUserByUserName([FromQuery] string userName)
+        {
+            var user = await _userService.FetchUserByUsernameAsync(userName);
+
+            if (user == null)
+            {
+                _logger.LogError($"User with username {userName} wasn't found.");
+                return NotFound("This username does not exist.");
+            }
+
+            return Ok(_mapper.Map<UserForResponseDto>(user));
+        }
+        /// <summary>
         /// Create a new user.
         /// </summary>
         [HttpPost]
