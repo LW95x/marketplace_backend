@@ -59,6 +59,7 @@ namespace Marketplace.Controllers
         /// Get a specific user by user name.
         /// </summary>
         [HttpGet("username")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> GetUserByUserName([FromQuery] string userName)
@@ -71,7 +72,7 @@ namespace Marketplace.Controllers
                 return NotFound("This username does not exist.");
             }
 
-            return Ok(_mapper.Map<UserForResponseDto>(user));
+            return Ok();
         }
         /// <summary>
         /// Create a new user.
