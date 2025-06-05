@@ -8,6 +8,9 @@
         public decimal? Price { get; set; }
         public int Quantity { get; set; }
         public string Category { get; set; }  = string.Empty;
+        public decimal DeliveryFee { get; set; }
+        public Boolean AllowReturns { get; set; }
+        public string Condition { get; set; } = string.Empty;
         public string SellerName { get; set; } = string.Empty;
         public Guid SellerId { get; set; }
         public List<string> ImageUrls { get; set; } = new List<string>();

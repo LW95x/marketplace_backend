@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Marketplace.Migrations
 {
     /// <inheritdoc />
-    public partial class AddMessagesTable : Migration
+    public partial class AmendedProductEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -239,6 +239,9 @@ namespace Marketplace.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Category = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DeliveryFee = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AllowReturns = table.Column<bool>(type: "bit", nullable: false),
+                    Condition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SellerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SellerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },

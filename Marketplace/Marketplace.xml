@@ -11,7 +11,7 @@
         </member>
         <member name="M:Marketplace.Controllers.MessagesController.GetAllUserMessages(System.String)">
             <summary>
-            Get a singular user notification.
+            Get all user messages sorted by conversation.
             </summary>
         </member>
         <member name="M:Marketplace.Controllers.MessagesController.DeleteMessage(System.String,System.String)">
@@ -167,6 +167,11 @@
         <member name="M:Marketplace.Controllers.UsersController.GetUserById(System.String)">
             <summary>
             Get a specific user.
+            </summary>
+        </member>
+        <member name="M:Marketplace.Controllers.UsersController.GetUserByUserName(System.String)">
+            <summary>
+            Get a specific user by user name.
             </summary>
         </member>
         <member name="M:Marketplace.Controllers.UsersController.CreateUser(Marketplace.Models.UserForCreationDto)">

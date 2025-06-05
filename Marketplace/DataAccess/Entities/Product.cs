@@ -24,6 +24,13 @@ namespace Marketplace.DataAccess.Entities
         [MaxLength(100)]
         public string Category { get; set; }
         [Required]
+        [Range(0.01, 100000.00, ErrorMessage = "Price must be between £0.01 and £100,000.")]
+        public decimal DeliveryFee { get; set; }
+        [Required]
+        public Boolean AllowReturns { get; set; }
+        [Required]
+        public string Condition { get; set; }
+        [Required]
         public string? SellerName { get; set; }
         public virtual ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
 
@@ -31,13 +38,16 @@ namespace Marketplace.DataAccess.Entities
         public User Seller { get; set; } = null!;
         public string? SellerId { get; set; }
 
-        public Product(string title, string category, decimal price, string description, int quantity)
+        public Product(string title, string category, decimal price, string description, int quantity, decimal deliveryFee, bool allowReturns, string condition)
         {
             Title = title;
             Category = category;
             Price = price;
             Description = description;
             Quantity = quantity;
+            DeliveryFee = deliveryFee;
+            AllowReturns = allowReturns;
+            Condition = condition;
         }
     }
 }

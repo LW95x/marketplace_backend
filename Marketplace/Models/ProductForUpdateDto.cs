@@ -14,5 +14,10 @@ namespace Marketplace.Models
         public int? Quantity {  get; set; }
         [MaxLength(100)]
         public string Category { get; set; } = string.Empty;
+        [Range(0.01, 100000.00, ErrorMessage = "Price must be between £0.01 and £100,000.")]
+        public decimal DeliveryFee { get; set; }
+        public Boolean AllowReturns { get; set; }
+        [MaxLength(100)]
+        public string Condition { get; set; } = string.Empty;
     }
 }

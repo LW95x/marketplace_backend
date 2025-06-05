@@ -66,55 +66,55 @@ namespace Marketplace.DataAccess.DbContexts
             Guid productId10 = new Guid("1CA45E8E-030C-4E9B-A1C4-BEF6D1863593");
             
 
-            Product product1 = new Product("Deckchair", "Furniture", 50M, "Very swingy", 10)
+            Product product1 = new Product("Deckchair", "Furniture", 50M, "Very swingy", 10, 5, true, "Used (Excellent)")
             {
                 Id = productId1,
                 SellerId = user1.Id,
                 SellerName = user1.UserName
             };
-            Product product2 = new Product("Football", "Sport", 20M, "Bouncy", 25)
+            Product product2 = new Product("Football", "Sport", 20M, "Bouncy", 25, 3, true, "Used (Excellent)")
             {
                 Id = productId2,
                 SellerId = user1.Id,
                 SellerName = user1.UserName
             };
-            Product product3 = new Product("Box of Flapjacks", "Food & Drink", 10M, "Tasty", 100)
+            Product product3 = new Product("Box of Flapjacks", "Food & Drink", 10M, "Tasty", 100, 2, false, "New")
             {
                 Id = productId3,
                 SellerId = user2.Id,
                 SellerName = user2.UserName
             };
-            Product product4 = new Product("Case of Beer", "Food & Drink", 20M, "Parched", 250)
+            Product product4 = new Product("Case of Beer", "Food & Drink", 20M, "Parched", 250, 2, false, "New")
             {
                 Id = productId4,
                 SellerId = user2.Id,
                 SellerName = user2.UserName
             };
-            Product product5 = new Product("Sand Wedge", "Sport", 50M, "Very sturdy", 20)
+            Product product5 = new Product("Sand Wedge", "Sport", 50M, "Very sturdy", 20, 5, true, "Used (Fair)")
             {
                 Id = productId5,
                 SellerId = user2.Id,
                 SellerName = user2.UserName
             };
-            Product product6 = new Product("Table", "Furniture", 100M, "A large table", 10)
+            Product product6 = new Product("Table", "Furniture", 100M, "A large table", 10, 10, false, "Used (Excellent)")
             {
                 Id = productId6,
                 SellerId = user3.Id,
                 SellerName = user3.UserName
             };
-            Product product7 = new Product("Winter Coat", "Clothing", 80M, "Warm and cosy", 5)
+            Product product7 = new Product("Winter Coat", "Clothing", 80M, "Warm and cosy", 5, 3, true, "New")
             {
                 Id = productId7,
                 SellerId = user3.Id,
                 SellerName = user3.UserName
             };
-            Product product8 = new Product("T-shirt", "Clothing", 20M, "White", 200)
+            Product product8 = new Product("T-shirt", "Clothing", 20M, "White", 200, 2, true, "Used (Ok)")
             {
                 Id = productId8,
                 SellerId = user3.Id,
                 SellerName = user3.UserName
             };
-            Product product9 = new Product("Jeans", "Clothing", 40M, "Optimal comfort", 1)
+            Product product9 = new Product("Jeans", "Clothing", 40M, "Optimal comfort", 1, 3, false, "Used (Excellent)")
             {
                 Id = productId9,
                 SellerId = user3.Id,

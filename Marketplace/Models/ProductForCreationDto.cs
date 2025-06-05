@@ -19,6 +19,14 @@ namespace Marketplace.Models
         [Required]
         [MaxLength(100)]
         public string Category { get; set; } = string.Empty;
+        [Required]
+        [Range(0.01, 100000.00, ErrorMessage = "Price must be between £0.01 and £100,000.")]
+        public decimal DeliveryFee { get; set; }
+        [Required]
+        public Boolean AllowReturns { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Condition { get; set; } = string.Empty;
         public List<string> ImageUrls { get; set; } = new List<string>();
     }
 }
