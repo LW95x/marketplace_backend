@@ -16,7 +16,13 @@ namespace Marketplace.MapperProfiles
             CreateMap<Product, ProductForCreationDto>()
                 .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src => src.Images.Select(img => img.Url).ToList()));
 
-            CreateMap<Product, ProductForUpdateDto>().ReverseMap();
+            CreateMap<ProductForUpdateDto, Product>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
+                    src.ImageUrls.Select(url => new ProductImage(url)).ToList()));
+
+            CreateMap<Product, ProductForUpdateDto>()
+                .ForMember(dest => dest.ImageUrls, opt => opt.MapFrom(src =>
+                    src.Images.Select(img => img.Url).ToList()));
         }
     }
 }

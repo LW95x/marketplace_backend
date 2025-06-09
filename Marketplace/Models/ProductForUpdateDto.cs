@@ -19,5 +19,6 @@ namespace Marketplace.Models
         public Boolean AllowReturns { get; set; }
         [MaxLength(100)]
         public string Condition { get; set; } = string.Empty;
+        public List<string> ImageUrls { get; set; } = new List<string>();
     }
 }
