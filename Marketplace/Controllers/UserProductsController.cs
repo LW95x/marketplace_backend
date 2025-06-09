@@ -181,6 +181,13 @@ namespace Marketplace.Controllers
 
             _mapper.Map(productToPatch, product);
 
+            if (productToPatch.ImageUrls != null && patchDocument.Operations.Any(op => op.path.Equals("/imageUrls", StringComparison.OrdinalIgnoreCase)))
+            {
+                product.Images = productToPatch.ImageUrls
+                    .Select(url => new ProductImage(url) { ProductId = product.Id })
+                    .ToList();
+            }
+
             var updatedProduct = await _userProductService.UpdateProductAsync(product);
 
             if (updatedProduct == null)
