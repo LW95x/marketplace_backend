@@ -100,8 +100,15 @@ namespace Marketplace.DataAccess.Repositories
 
             if (product.Images != null)
             {
-            _context.ProductImages.RemoveRange(existingProduct.Images);
-            existingProduct.Images = product.Images;
+                var currentImages = existingProduct.Images.ToList();
+                existingProduct.Images.Clear();
+
+                _context.ProductImages.RemoveRange(currentImages);
+
+                foreach (var image in product.Images)
+                {
+                    existingProduct.Images.Add(new ProductImage(image.Url) { ProductId = existingProduct.Id });
+                }
             }
 
             await _context.SaveChangesAsync();
