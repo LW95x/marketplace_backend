@@ -101,10 +101,8 @@ namespace Marketplace.DataAccess.Repositories
             if (product.Images != null)
             {
                 var newImages = product.Images.ToList();
-                var oldImages = existingProduct.Images.ToList();
 
                 existingProduct.Images.Clear();
-                _context.ProductImages.RemoveRange(oldImages);
 
                 foreach (var image in newImages)
                 {
