@@ -89,9 +89,23 @@ namespace Marketplace.DataAccess.Repositories
 
         public async Task<Product> UpdateProductAsync(Product product)
         {
-            _context.Products.Update(product);
+            var existingProduct = await _context.Products
+                .Include(p => p.Images)
+                .FirstOrDefaultAsync(p => p.Id == product.Id);
+
+            if (existingProduct == null)
+            {
+                return null!;
+            }
+
+            if (product.Images != null)
+            {
+            _context.ProductImages.RemoveRange(existingProduct.Images);
+            existingProduct.Images = product.Images;
+            }
+
             await _context.SaveChangesAsync();
-            return product;
+            return existingProduct;
         }
     }
 }
