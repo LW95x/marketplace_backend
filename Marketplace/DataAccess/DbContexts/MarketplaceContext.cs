@@ -44,7 +44,7 @@ namespace Marketplace.DataAccess.DbContexts
                 .HasMany(p => p.Images)
                 .WithOne(i => i.Product)
                 .HasForeignKey(i => i.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.OrderItems)
