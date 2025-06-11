@@ -220,17 +220,18 @@ namespace Marketplace.Controllers
         /// <summary>
         /// Make a password reset request, sending a verification request to the user's email.
         /// </summary>
-        [HttpPost("{userId}/reset-password")]
+        [HttpPost("reset-password")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PasswordReset(string userId, PasswordResetDto passwordResetDto)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PasswordReset(PasswordResetDto passwordResetDto)
         {
-            var user = await _userService.FetchUserByIdAsync(userId);
+            var user = await _userManager.FindByEmailAsync(passwordResetDto.Email);
 
             if (user == null)
             {
-                _logger.LogError($"User with ID {userId} wasn't found.");
-                return NotFound("This user ID does not exist.");
+                _logger.LogError($"User with email {passwordResetDto.Email} wasn't found.");
+                return NotFound("This user email does not exist.");
             }
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
