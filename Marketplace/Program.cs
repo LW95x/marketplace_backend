@@ -39,6 +39,7 @@ builder.Services.AddScoped<IUserProductService, UserProductService>();
 builder.Services.AddScoped<ISavedItemsService, SavedItemsService>();
 builder.Services.AddScoped<INotificationsService, NotificationsService>();
 builder.Services.AddScoped<IMessagesService, MessagesService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
 

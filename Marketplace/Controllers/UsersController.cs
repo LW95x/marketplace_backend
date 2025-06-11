@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
+using Marketplace.Helpers;
 using Marketplace.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Marketplace.Controllers
 {
@@ -16,13 +18,15 @@ namespace Marketplace.Controllers
     {
         private readonly IUserService _userService;
         private readonly UserManager<User> _userManager;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService, UserManager<User> userManager, IMapper mapper, ILogger<UsersController> logger)
+        public UsersController(IUserService userService, UserManager<User> userManager, IEmailService emailService, IMapper mapper, ILogger<UsersController> logger)
         {
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -211,6 +215,34 @@ namespace Marketplace.Controllers
             }
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Make a password reset request, sending a verification request to the user's email.
+        /// </summary>
+        [HttpPost("{userId}/reset-password")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PasswordReset(string userId, PasswordResetDto passwordResetDto)
+        {
+            var user = await _userService.FetchUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                _logger.LogError($"User with ID {userId} wasn't found.");
+                return NotFound("This user ID does not exist.");
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var encodedToken = WebUtility.UrlEncode(token);
+
+            var resetUrl = $"{passwordResetDto.ClientAppUrl}/reset-password?email={passwordResetDto.Email}&token={encodedToken}";
+
+            var html = $"<p>Click <a href=\"{resetUrl}\">here</a> to reset your password.</p>";
+
+            await _emailService.SendEmailAsync(passwordResetDto.Email, "Reset your password", html);
+
+            return Ok();
         }
     }
 }
