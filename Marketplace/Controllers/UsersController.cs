@@ -221,6 +221,7 @@ namespace Marketplace.Controllers
         /// Make a password reset request, sending a verification request to the user's email.
         /// </summary>
         [HttpPost("reset-password")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
