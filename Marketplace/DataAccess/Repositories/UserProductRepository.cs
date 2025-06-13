@@ -75,8 +75,14 @@ namespace Marketplace.DataAccess.Repositories
                     return Result.Fail("Product could not be found.");
                 }
 
+                var savedItems = await _context.SavedItem
+                    .Where(s => s.ProductId == product.Id)
+                    .ToListAsync();
+
+                _context.SavedItem.RemoveRange(savedItems);
+
                 _context.ProductImages.RemoveRange(productDependencies.Images);
-                _context.Products.Remove(product);
+                _context.Products.Remove(productDependencies);
 
                 await _context.SaveChangesAsync();
                 return Result.Success();
