@@ -6,6 +6,7 @@ namespace Marketplace.Models
     {
         [Required]
         [MaxLength(300)]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
         [Required]
         [MaxLength(300)]
