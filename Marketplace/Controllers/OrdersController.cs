@@ -5,6 +5,8 @@ using Marketplace.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
+using Stripe.V2;
 
 namespace Marketplace.Controllers
 {
@@ -98,10 +100,24 @@ namespace Marketplace.Controllers
                 _logger.LogError($"The shopping cart is empty and cannot be converted to an order.");
                 return BadRequest("Empty shopping cart.");
             }
+
+            var paymentIntentDto =  new CreatePaymentIntentDto
+            {
+                Amount = (long)(cart.TotalPrice * 100),
+                Currency = "gbp",
+                PaymentMethodId = orderDto.StripePaymentId
+            };
+
+            var intent = await CreatePaymentIntentAsync(paymentIntentDto);
+
+            if (intent.Status != "succeeded")
+            {
+                return BadRequest("Create Payment Intent failed.");
+            }
             
             var order = _mapper.Map<Order>(cart);
             order.Address = orderDto.Address;
-            order.StripePaymentId = orderDto.StripePaymentId;
+            order.StripePaymentId = intent.Id;
 
             var createdOrder = await _orderService.CreateOrderAsync(order);
 
@@ -207,6 +223,20 @@ namespace Marketplace.Controllers
             var soldItems = await _orderService.FetchSoldItems(userId);
 
             return Ok(_mapper.Map<IEnumerable<SoldItemForResponseDto>>(soldItems));
+        }
+
+        private async Task<PaymentIntent> CreatePaymentIntentAsync(CreatePaymentIntentDto createPaymentIntentDto)
+        {
+            var options = new PaymentIntentCreateOptions
+            {
+                Amount = createPaymentIntentDto.Amount,
+                Currency = createPaymentIntentDto.Currency,
+                PaymentMethod = createPaymentIntentDto.PaymentMethodId,
+                Confirm = true
+            };
+
+            var service = new PaymentIntentService();
+            return await service.CreateAsync(options);
         }
     }
 }
