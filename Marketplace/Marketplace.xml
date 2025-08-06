@@ -194,5 +194,22 @@
             Update a user.
             </summary>
         </member>
+        <member name="M:Marketplace.Controllers.UsersController.PasswordReset(Marketplace.Models.PasswordResetDto)">
+            <summary>
+            Make a password reset request, sending a verification request to the user's email.
+            </summary>
+        </member>
+        <member name="T:Marketplace.Migrations.AmendedProductEntity">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendedProductEntity.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendedProductEntity.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Marketplace.Migrations.AmendedProductEntity.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
     </members>
 </doc>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Identity;
 using Marketplace.BusinessLayer;
 using Marketplace.DataAccess.Entities;
 using Marketplace.Models;
@@ -100,24 +101,10 @@ namespace Marketplace.Controllers
                 _logger.LogError($"The shopping cart is empty and cannot be converted to an order.");
                 return BadRequest("Empty shopping cart.");
             }
-
-            var paymentIntentDto =  new CreatePaymentIntentDto
-            {
-                Amount = (long)(cart.TotalPrice * 100),
-                Currency = "gbp",
-                PaymentMethodId = orderDto.StripePaymentId
-            };
-
-            var intent = await CreatePaymentIntentAsync(paymentIntentDto);
-
-            if (intent.Status != "succeeded")
-            {
-                return BadRequest("Create Payment Intent failed.");
-            }
             
             var order = _mapper.Map<Order>(cart);
             order.Address = orderDto.Address;
-            order.StripePaymentId = intent.Id;
+            order.StripePaymentId = orderDto.StripePaymentId;
 
             var createdOrder = await _orderService.CreateOrderAsync(order);
 
@@ -225,18 +212,15 @@ namespace Marketplace.Controllers
             return Ok(_mapper.Map<IEnumerable<SoldItemForResponseDto>>(soldItems));
         }
 
-        private async Task<PaymentIntent> CreatePaymentIntentAsync(CreatePaymentIntentDto createPaymentIntentDto)
+        [HttpPost("create-payment-intent")]
+        public async Task<ActionResult<CreatePaymentIntentResponse>> CreatePaymentIntentRequest(CreatePaymentIntentDto requestDto)
         {
-            var options = new PaymentIntentCreateOptions
+            var intent = await new PaymentIntentService().CreateAsync(new PaymentIntentCreateOptions
             {
-                Amount = createPaymentIntentDto.Amount,
-                Currency = createPaymentIntentDto.Currency,
-                PaymentMethod = createPaymentIntentDto.PaymentMethodId,
-                Confirm = true
-            };
-
-            var service = new PaymentIntentService();
-            return await service.CreateAsync(options);
+                Amount = requestDto.Amount,
+                Currency = requestDto.Currency
+            });
+            return Ok(new CreatePaymentIntentResponse { ClientSecret = intent.ClientSecret });
         }
     }
 }
