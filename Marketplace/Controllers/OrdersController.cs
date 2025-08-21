@@ -103,6 +103,7 @@ namespace Marketplace.Controllers
             }
             
             var order = _mapper.Map<Order>(cart);
+            order.BuyerId = userId;
             order.Address = orderDto.Address;
             order.StripePaymentId = orderDto.StripePaymentId;
 

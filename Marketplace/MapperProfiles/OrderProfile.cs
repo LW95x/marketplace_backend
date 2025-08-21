@@ -17,6 +17,7 @@ namespace Marketplace.MapperProfiles
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<ShoppingCart, Order>()
                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.Items))
+                .ForMember(d => d.BuyerId, o => o.MapFrom(s => s.BuyerId))
                 .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<Order, OrderForUpdateDto>().ReverseMap();
             CreateMap<OrderItem, SoldItemForResponseDto>()
